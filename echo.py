@@ -1,16 +1,19 @@
-import RPi.GPIO as GPIO
+"""
+Echo game for Raspberry Pi
+"""
+
+import subprocess
 import time
-import os
 
-butPressed = True
+from RPi import GPIO
 
-recordBool = False#True if a record is in progress
-pin = 26
+PIN = 26
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)#sets Pi's internal resistors to pull-up
+GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)#sets Pi's internal resistors to pull-up
 
 while True:
-    butPressed = GPIO.input(pin)#checks if a button is pressed
-    if butPressed == False:#if a button is pressed
-        os.system("aplay -D plughw:CARD=2 test.wav")
+    if GPIO.input(PIN) == 0:  # Button was pressed
+        result = subprocess.run(["aplay", "-D", "plughw:CARD=2", "test.wav"],
+                                capture_output=True,
+                                check=True)
     time.sleep(0.1)
