@@ -13,6 +13,9 @@ GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)#sets Pi's internal resistors 
 
 while True:
     if GPIO.input(PIN) == 0:  # Button was pressed
+        result = subprocess.run(["arecord", "-D", "sysdefault:CARD=3", "-d", "4", "test.wav"],
+                                capture_output=True,
+                                check=True)
         result = subprocess.run(["aplay", "-D", "plughw:CARD=2", "test.wav"],
                                 capture_output=True,
                                 check=True)
