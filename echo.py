@@ -2,6 +2,7 @@
 Echo game for Raspberry Pi
 """
 
+from datetime import datetime
 import subprocess
 import time
 
@@ -13,10 +14,11 @@ GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)#sets Pi's internal resistors 
 
 while True:
     if GPIO.input(PIN) == 0:  # Button was pressed
-        result = subprocess.run(["arecord", "-D", "sysdefault:CARD=3", "-d", "4", "test.wav"],
+        FILE_NAME = str(datetime.now()) + ".wav"
+        result = subprocess.run(["arecord", "-D", "sysdefault:CARD=3", "-d", "4", FILE_NAME],
                                 capture_output=True,
                                 check=True)
-        result = subprocess.run(["aplay", "-D", "plughw:CARD=2", "test.wav"],
+        result = subprocess.run(["aplay", "-D", "plughw:CARD=2", FILE_NAME],
                                 capture_output=True,
                                 check=True)
     time.sleep(0.1)
