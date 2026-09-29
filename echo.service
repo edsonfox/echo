@@ -1,0 +1,15 @@
+[Unit]
+Description=RF Echo Audio Device
+After=sound.target
+
+[Service]
+Nice=-10
+ExecStart=/usr/bin/python /home/admin/GitHub/edsonfox/echo/echo.py
+WorkingDirectory=/home/admin/GitHub/edsonfox/echo
+User=admin
+Restart=on-failure
+RestartSec=5
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+[Install]
+WantedBy=multi-user.target
